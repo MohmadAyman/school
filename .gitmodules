@@ -1,0 +1,6 @@
+[submodule "java"]
+	path = java
+	url = https://github.com/MohmadAyman/java
+[submodule "compilers"]
+	path = compilers
+	url = https://github.com/MohmadAyman/compilers
