@@ -24,8 +24,6 @@ class LinkParser(HTMLParser):
 					# somepage.html is the new URL (a relative URL)
 					#
 					# We combine a relative URL with the base URL to create
-					# an absolute URL like:
-					# www.netinstructions.com/somepage.html
 					newUrl = parse.urljoin(self.baseUrl, value)
 					# And add it to our colection of links:
 					self.links = self.links + [newUrl]
@@ -55,7 +53,8 @@ class LinkParser(HTMLParser):
 # And finally here is our spider. It takes in an URL, a word to find,
 # and the number of pages to search through before giving up
 def spider(url,superMaxPages):
-	lock = threading.RLock()
+	lock = threading.Lock()
+	writeLock = threading.Lock()
 	mydata = threading.local()
 	mydata.numberVisited = 0  
 	mydata.pagesToVisit = url
@@ -73,10 +72,11 @@ def spider(url,superMaxPages):
 		else:
 			maxPages = 4
 
-	# frequency of visitingg the URL, we chose it to be based on the domain (to be easier for us)
+# frequency of visitingg the URL, we chose it to be based on the domain (to be easier for us)
 		while mydata.pagesToVisit != [] and mydata.numberVisited < int(maxPages):
-
-	# In case we are not allowed to read the page -> delete url -> continue.
+# Start from the beginning of our collection of pages to visit:
+			url = mydata.pagesToVisit[0]
+# In case we are not allowed to read the page -> delete url -> continue.
 			rp = robotparser.RobotFileParser()
 			rp.set_url(url+'/robots.txt')
 			rp.read()
@@ -84,10 +84,10 @@ def spider(url,superMaxPages):
 				del mydata.pagesToVisit[0]
 				continue
 
-	# lock the vistied list, since more than one thread reads and writes to it.
+# lock the vistied list, since more than one thread reads and writes to it.
 			lock.acquire()
 			try:
-				if url in LinkParser.visited:
+				if url in LinkParser.visited and mydata.pagesToVisit != []:
 					del mydata.pagesToVisit[0]
 					print("cotinue")
 					continue
@@ -97,6 +97,11 @@ def spider(url,superMaxPages):
 				lock.release() # this won't block
 			mydata.numberVisited += 1
 			LinkParser.numVisited += 1
+
+			writeLock.acquire()
+			f.write(url+'\n')
+			writeLock.release()
+
 			mydata.pagesToVisit = mydata.pagesToVisit[1:]
 			print(LinkParser.numVisited)
 			print(LinkParser.visited[0:LinkParser.numVisited])
@@ -117,14 +122,28 @@ class myThread (threading.Thread):
 	def run(self):
 		spider (url, maxPages)
 
+def file_len(fname):
+	with open(fname) as f:
+		return(sum(1 for _ in f))
 
 if __name__ == '__main__':
+
+# Retirve previously made list.
+	length = file_len("urls.txt")
+
+	# Important: this is to be changed !!!
+	######################################
+	f = open('urls.txt','w')			
+	######################################
+	for x in range(length):
+		LinkParser.visited[x].append(f.readline())
+
 	threads = []
 	url = []
 	numberOfThreads = sys.argv[3]
-	url.append("https://docs.python.org/3/library/threading.html")
-	url.append("https://docs.python.org/2/library/thread.html")
-	url.append("https://docs.python.org/3/library/threading.html")
+	url.append("https://docs.python.org/3/py-modindex.html")
+	# url.append("https://docs.python.org/3/py-modindex.html")
+	# url.append("https://docs.python.org/3/library/threading.html")
 
 	maxPages = sys.argv[2]	# This value is overriden in the function Spider #
 	for i in range(1,int(numberOfThreads)):
@@ -139,3 +158,9 @@ if __name__ == '__main__':
 
 	for j in range(1,int(numberOfThreads)):
 		threads[j-1].join()
+
+	# This zero should be overriden after we know the number of acual urls crawled.
+	f.write(str(LinkParser.numVisited))		# This '0' means the Indexer was here, -the indexer sets the '0'-,	// Fares.
+										# if it is 'x', then, 'x' pages have been added to the list, since last time the indexer has indexed.
+										# This is done to save the indexer from re indexing indexed pages.
+	f.close()
