@@ -53,24 +53,6 @@ class LinkParser(HTMLParser):
 		else:
 			return "",[]
 
-def write_urls(toBeProcessed,writeLock):
-	writeLock.acquire()
-	try:
-		f.write(toBeProcessed+'\n')
-	finally:
-		writeLock.release()
-
-def fetch_all_urls(url,toBeProcessed,parser,data,links):
-	try:
-		parser = LinkParser()
-		data, links = parser.getLinks(toBeProcessed)		
-		# Add the pages that we visited to the end of our collection
-		# of pages to visit:
-		url = url + links
-		print("One more page added from &i",threading.get_ident())
-	except:
-		print(" **Failed!**")
-
 # And finally here is our spider. It takes in an URL, a word to find,
 # and the number of pages to search through before giving up
 def spider(url,superMaxPages):
@@ -78,10 +60,11 @@ def spider(url,superMaxPages):
 	toBeProcessed = threading.local()
 	data = threading.local()
 	parser = threading.local()
-	writeLock = threading.Lock()
-
 	links = threading.local()
+
+	urlLock = threading.Lock()
 	lock = threading.Lock()
+	writeLock = threading.Lock()
 
 	# Start from the beginning of our collection of pages to visit:
 	# frequency of visitingg the URL, we chose it to be based on the domain (to be easier for us)
@@ -91,31 +74,46 @@ def spider(url,superMaxPages):
 			break
 
 		lock.acquire()
-		try:
-			if not url:
-				lock.release()
-				continue
-			else:
-				print('to be processed ')
-				toBeProcessed = url.pop()
-		except:
-			print('url locking failed')
+		if not url:
+			print('first continue')
 			lock.release()
 			continue
+		else:
+			print('to be processed ')
+			toBeProcessed = url[0]
+			del url[0]
+			print(url)
+			print(toBeProcessed)
 			# lock the vistied list, since more than one thread reads and writes to it.
 		lock.release()
 		# In case we are not allowed to read the page -> delete url -> continue.
 		rp = robotparser.RobotFileParser()
 		rp.set_url(toBeProcessed +'/robots.txt')
+		rp.read()
+
 		try:
-			rp.read()
+			parser = LinkParser()
+			data, links = parser.getLinks(toBeProcessed)		
+			# Add the pages that we visited to the end of our collection
+			# of pages to visit:
+			urlLock.acquire()
+			try:
+				url = url + links
+			except:
+				print('url lock failed')
+				urlLock.release()
+				continue
+			urlLock.release()
+			print("One more page added from &i",threading.get_ident())
 		except:
-			print('robot parser cant read')
+			print(" **Failed!**")
+
 		if not(rp.can_fetch("*", toBeProcessed)):
+			print('second continue')
 			continue
 
-		#if the initial was already one of the saved urls, it wont do more spider work
 		if toBeProcessed in LinkParser.visited:
+			print('third continue')
 			continue
 
 		LinkParser.visited.append(toBeProcessed)
@@ -127,15 +125,6 @@ def spider(url,superMaxPages):
 			f.write(toBeProcessed+'\n')
 		finally:
 			writeLock.release()
-	try:
-		parser = LinkParser()
-		data, links = parser.getLinks(toBeProcessed)		
-		# Add the pages that we visited to the end of our collection
-		# of pages to visit:
-		url = url + links
-		print("One more page added from &i",threading.get_ident())
-	except:
-		print(" **Failed!**")
 
 class myThread (threading.Thread):
 	def __init__(self, url, maxPages):
@@ -158,7 +147,7 @@ if __name__ == '__main__':
 		length = file_len("urls.txt")
 		print (length)
 		f = open('urls.txt','r+')
-		print('opened sucess')	
+		print('opened')	
 		for x in range(length):
 			LinkParser.visited.append(f.readline().strip('\n'))
 	else:
@@ -167,9 +156,11 @@ if __name__ == '__main__':
 	maxPages = 4
 	threads = []
 	url = []
-	url.append("http://1337x.to/torrent/1534860/Quantico-S01E17-HDTV-x264-FUM-ettv/")
-	url.append("http://www.w3schools.com/")
-
+	url.append("https://docs.python.org/2/py-modindex.html")
+	url.append("https://docs.python.org/4/py-modindex.html")
+	url.append("https://docs.python.org/3/py-modindex.html")
+	l = [ 'http://sphinx-doc.org/', 'http://sphinx-doc.org/contents.html', 'http://sphinx-doc.org/']
+	url = url + l
 	numberOfThreads = sys.argv[1]
 
 	for i in range(0,int(numberOfThreads)):
