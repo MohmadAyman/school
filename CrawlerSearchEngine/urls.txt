@@ -1,0 +1,11 @@
+https://docs.python.org/4/py-modindex.html
+https://docs.python.org/3/py-modindex.html
+https://docs.python.org/2/py-modindex.html
+http://sphinx.pocoo.org/
+http://sphinx-doc.org/
+https://docs.python.org/3/genindex.html
+https://docs.python.org/2/genindex.html
+https://www.python.org/
+https://docs.python.org/3/index.html
+https://docs.python.org/2/index.html
+https://docs.python.org/3/py-modindex.html#cap-_

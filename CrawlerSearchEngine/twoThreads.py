@@ -82,14 +82,16 @@ def spider(url,superMaxPages):
 			print('to be processed ')
 			toBeProcessed = url[0]
 			del url[0]
-			print(url)
-			print(toBeProcessed)
 			# lock the vistied list, since more than one thread reads and writes to it.
 		lock.release()
 		# In case we are not allowed to read the page -> delete url -> continue.
 		rp = robotparser.RobotFileParser()
 		rp.set_url(toBeProcessed +'/robots.txt')
 		rp.read()
+
+		if not(rp.can_fetch("*", toBeProcessed)):
+			print('second continue')
+			continue
 
 		try:
 			parser = LinkParser()
@@ -107,10 +109,6 @@ def spider(url,superMaxPages):
 			print("One more page added from &i",threading.get_ident())
 		except:
 			print(" **Failed!**")
-
-		if not(rp.can_fetch("*", toBeProcessed)):
-			print('second continue')
-			continue
 
 		if toBeProcessed in LinkParser.visited:
 			print('third continue')
