@@ -69,6 +69,10 @@ def spider(url,superMaxPages):
 	# Start from the beginning of our collection of pages to visit:
 	# frequency of visitingg the URL, we chose it to be based on the domain (to be easier for us)
 	while 1:
+		if len(url)>100:
+			del url[0]
+
+#		if LinkParser.numVisited > int(maxPages):
 		if LinkParser.numVisited > maxPages:
 			print ('max pages reached')
 			break
@@ -169,8 +173,8 @@ if __name__ == '__main__':
 	url = url + l
 
 	numberOfThreads = sys.argv[1]
-	maxPages = argv[2]
-
+#	maxPages = sys.argv[2]
+	maxPages = 8
 	for i in range(0,int(numberOfThreads)):
 		threads.append(myThread( spider, (url,maxPages) ))	# This value is overriden in the function Spider #
 
