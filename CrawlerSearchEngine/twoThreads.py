@@ -74,23 +74,32 @@ def spider(url,superMaxPages):
 			break
 
 		lock.acquire()
-		if not url:
-			print('first continue')
+		try:
+			if not url:
+				print('first continue')
+				lock.release()
+				continue
+			else:
+				print('to be processed ')
+				toBeProcessed = url[0]
+				del url[0]
+		except:
+			print('first lock Failed')
 			lock.release()
+			time.sleep(0.01)
 			continue
-		else:
-			print('to be processed ')
-			toBeProcessed = url[0]
-			del url[0]
 			# lock the vistied list, since more than one thread reads and writes to it.
 		lock.release()
 		# In case we are not allowed to read the page -> delete url -> continue.
-		rp = robotparser.RobotFileParser()
-		rp.set_url(toBeProcessed +'/robots.txt')
-		rp.read()
-
-		if not(rp.can_fetch("*", toBeProcessed)):
-			print('second continue')
+		try:
+			rp = robotparser.RobotFileParser()
+			rp.set_url(toBeProcessed +'/robots.txt')
+			rp.read()
+			if not(rp.can_fetch("*", toBeProcessed)):
+				print('second continue')
+				continue
+		except:
+			print('cant find the robot file')
 			continue
 
 		try:
@@ -103,15 +112,15 @@ def spider(url,superMaxPages):
 				url = url + links
 			except:
 				print('url lock failed')
+				time.sleep(0.01)
 				urlLock.release()
 				continue
 			urlLock.release()
 			print("One more page added from &i",threading.get_ident())
 		except:
-			print(" **Failed!**")
+			print("Couldnt exctract links from the page")
 
 		if toBeProcessed in LinkParser.visited:
-			print('third continue')
 			continue
 
 		LinkParser.visited.append(toBeProcessed)
@@ -139,8 +148,8 @@ def file_len(fname):
 
 
 if __name__ == '__main__':
-# Retirve previously made list.
 
+# Retirve previously made list.
 	if (os.path.isfile("urls.txt")): 
 		length = file_len("urls.txt")
 		print (length)
@@ -151,7 +160,6 @@ if __name__ == '__main__':
 	else:
 		f = open('urls.txt','w+')					
 
-	maxPages = 4
 	threads = []
 	url = []
 	url.append("https://docs.python.org/2/py-modindex.html")
@@ -159,7 +167,9 @@ if __name__ == '__main__':
 	url.append("https://docs.python.org/3/py-modindex.html")
 	l = [ 'http://sphinx-doc.org/', 'http://sphinx-doc.org/contents.html', 'http://sphinx-doc.org/']
 	url = url + l
+
 	numberOfThreads = sys.argv[1]
+	maxPages = argv[2]
 
 	for i in range(0,int(numberOfThreads)):
 		threads.append(myThread( spider, (url,maxPages) ))	# This value is overriden in the function Spider #
