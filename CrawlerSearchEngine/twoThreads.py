@@ -57,6 +57,7 @@ class LinkParser(HTMLParser):
 # and the number of pages to search through before giving up
 def spider(url,superMaxPages):
 	print(threading.current_thread())
+
 	toBeProcessed = threading.local()
 	data = threading.local()
 	parser = threading.local()
@@ -65,6 +66,7 @@ def spider(url,superMaxPages):
 	urlLock = threading.Lock()
 	lock = threading.Lock()
 	writeLock = threading.Lock()
+	writeLockFile = threading.Lock()
 
 	# Start from the beginning of our collection of pages to visit:
 	# frequency of visitingg the URL, we chose it to be based on the domain (to be easier for us)
@@ -111,6 +113,12 @@ def spider(url,superMaxPages):
 			data, links = parser.getLinks(toBeProcessed)		
 			# Add the pages that we visited to the end of our collection
 			# of pages to visit:
+			writeLockFile.acquire:
+				w = open(LinkParser.numVisited+'.html','w+')					
+				w.write(data)
+				w.close()
+			writeLockFile.release()
+		
 			urlLock.acquire()
 			try:
 				url = url + links
