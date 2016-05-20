@@ -174,9 +174,7 @@ if __name__ == '__main__':
 
 	threads = []
 	url = []
-	url.append("https://docs.python.org/2/py-modindex.html")
-	url.append("https://docs.python.org/4/py-modindex.html")
-	url.append("https://docs.python.org/3/py-modindex.html")
+	url.append("http://www.prweb.com/releases/2010/06/prweb4134114.htm")
 	l = [ 'http://sphinx-doc.org/', 'http://sphinx-doc.org/contents.html', 'http://sphinx-doc.org/']
 	url = url + l
 

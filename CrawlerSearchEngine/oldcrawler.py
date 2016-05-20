@@ -135,7 +135,7 @@ if __name__ == '__main__':
 
 	threads = []
 	url = []
-	url.append("https://docs.python.org/3/py-modindex.html")
+	url.append("http://www.prweb.com/releases/2010/06/prweb4134114.htm")
 	# url.append("https://docs.python.org/3/py-modindex.html")
 	# url.append("https://docs.python.org/3/library/threading.html")
 

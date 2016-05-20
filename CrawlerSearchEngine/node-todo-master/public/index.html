@@ -40,16 +40,11 @@
 
 			<!-- HEADER AND TODO COUNT -->
 			<div class="jumbotron text-center">
-				<h1>Crawler based search engine<span class="label label-info"></span></h1>
+				<h1>The Super Awesome search engine!!<span class="label label-info"></span></h1>
 			</div>
-
 			<!-- TODO LIST -->
-			<div id="todo-list" class="row">
+<!-- 			<div id="todo-list" class="row">
 				<div class="col-sm-4 col-sm-offset-4">
-
-
-
-					<!-- LOOP OVER THE TODOS IN $scope.todos -->
 					<div class="checkbox" ng-repeat="todo in todos">
 						<label>
 							<input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ todo.text }}
@@ -66,12 +61,12 @@
 
 				</div>
 			</div>
-
+ -->
 
 			<!-- FORM TO CREATE TODOS -->
 			<div id="todo-form" class="row">
 				<div class="col-sm-8 col-sm-offset-2 text-center">
-					<form>
+					<form method="POST" action="/examples/servlets/servlet/Matrixform">
 						<div class="form-group">
 
 							<!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
@@ -83,37 +78,6 @@
 					</form>
 				</div>
 			</div>
-			<div ng-controller="DemoCtrl as ctrl" layout="column" ng-cloak>
-				<md-content class="md-padding">
-				<form ng-submit="$event.preventDefault()">
-					<p>Use <code>md-autocomplete</code> to search for matches from local or remote data sources.</p>
-					<md-autocomplete
-					ng-disabled="ctrl.isDisabled"
-					md-no-cache="ctrl.noCache"
-					md-selected-item="ctrl.selectedItem"
-					md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
-					md-search-text="ctrl.searchText"
-					md-selected-item-change="ctrl.selectedItemChange(item)"
-					md-items="item in ctrl.querySearch(ctrl.searchText)"
-					md-item-text="item.display"
-					md-min-length="0"
-					placeholder="What is your favorite US state?">
-					<md-item-template>
-					<span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.display}}</span>
-				</md-item-template>
-				<md-not-found>
-				No states matching "{{ctrl.searchText}}" were found.
-				<a ng-click="ctrl.newState(ctrl.searchText)">Create a new one!</a>
-			</md-not-found>
-		</md-autocomplete>
-		<br/>
-		<md-checkbox ng-model="ctrl.simulateQuery">Simulate query for results?</md-checkbox>
-		<md-checkbox ng-model="ctrl.noCache">Disable caching of queries?</md-checkbox>
-		<md-checkbox ng-model="ctrl.isDisabled">Disable the input?</md-checkbox>
-		<p>By default, <code>md-autocomplete</code> will cache results when performing a query.  After the initial call is performed, it will use the cached results to eliminate unnecessary server requests or lookup logic. This can be disabled above.</p>
-	</form>
-</md-content>
-</div>
 <!--
 Copyright 2016 Google Inc. All Rights Reserved. 
 Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
