@@ -9,6 +9,12 @@ fibonacci(A,B) :-
            fibonacci(E,D2),
            B is D1+D2.
 
+fib_sequence(A,B,[H|T]) :-
+    A =< B                   /* Make sure A is less than or equal to B */
+,   fib(A, H)                /* Produce the head value from fib(A,...) */
+,   AA is A + 1              /* Produce A+1 */
+,   fib_sequence(AA, B, T).  /* Produce the rest of the list */
+
 mother(lila,mona).
 alive(lila,mona).
 parent(X,Y) :- mother(X,Y).
