@@ -9,4 +9,7 @@ fibonacci(A,B) :-
            fibonacci(E,D2),
            B is D1+D2.
 
-           
+mother(lila,mona).
+alive(lila,mona).
+parent(X,Y) :- mother(X,Y).
+older(X,Y):-parent(X,Y),alive(X).
