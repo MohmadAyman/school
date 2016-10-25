@@ -141,7 +141,7 @@ if __name__ == '__main__':
 	threads = []
 	url = []
 	numberOfThreads = sys.argv[3]
-	url.append("https://docs.python.org/3/py-modindex.html")
+	url.append("http://docs.opencv.org/3.0-beta/doc/tutorials/tutorials.html")
 	# url.append("https://docs.python.org/3/py-modindex.html")
 	# url.append("https://docs.python.org/3/library/threading.html")
 
