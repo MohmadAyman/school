@@ -146,39 +146,85 @@ void populate(int length, string base, string& in)
     		}
     }
     if(k>2){
-    	    	for (int i = 0; i < s.size()-3;++i)
+   	    	for (int i = 0; i < s.size()-9;++i)
+    		{
+    			s[i+9] = s[i];
+    		}
+    		b = length-3;
+    		for (int i = 0; i < 9; ++i) // to be fixed
+    		{
+	    		if (in[b]=='A'){
+				s[i].replace(b, 1, "C");
+				s[i+9].replace(b, 1, "G");
+				s[i+18].replace(b, 1, "T");
+			}else if(in[b]=='C'){
+				s[i].replace(b, 1, "A");
+				s[i+9].replace(b, 1, "G");
+				s[i+18].replace(b, 1, "T");
+			}else if(in[b]=='G'){
+				s[i].replace(b, 1, "A");
+				s[i+9].replace(b, 1, "C");
+				s[i+18].replace(b, 1, "T");
+			}else if(in[b]=='T'){
+				s[i].replace(b, 1, "A");
+				s[i+9].replace(b, 1, "C");
+				s[i+18].replace(b, 1, "G");
+			}		
+    	}
+    }
+    if(k>3){
+   	    	for (int i = 0; i < s.size()-27;++i)
+    		{
+    			s[i+27] = s[i];
+    		}
+    		b = length-4;
+    		for (int i = 0; i < 27; ++i) // to be fixed
+    		{
+	    		if (in[b]=='A'){
+				s[i].replace(b, 1, "C");
+				s[i+9].replace(b, 1, "G");
+				s[i+18].replace(b, 1, "T");
+			}else if(in[b]=='C'){
+				s[i].replace(b, 1, "A");
+				s[i+9].replace(b, 1, "G");
+				s[i+18].replace(b, 1, "T");
+			}else if(in[b]=='G'){
+				s[i].replace(b, 1, "A");
+				s[i+9].replace(b, 1, "C");
+				s[i+18].replace(b, 1, "T");
+			}else if(in[b]=='T'){
+				s[i].replace(b, 1, "A");
+				s[i+9].replace(b, 1, "C");
+				s[i+18].replace(b, 1, "G");
+			}		
+    	}
+    }
+    if(k>4){
+   	    	for (int i = 0; i < s.size()-3;++i)
     		{
     			s[i+3] = s[i];
     		}
-
-    		for (int i = 0; i < 21; ++i) // to be fixed
+    		b = length-5;
+    		for (int i = 0; i < 81; ++i) // to be fixed
     		{
-	    		if (in[length-3]=='A'){
-				s[i].replace(length-3, 1, "C");
-				s[i+9].replace(length-3, 1, "G");
-				s[i+18].replace(length-3, 1, "T");
-			}else if(in[length-3]=='C'){
-				s[i].replace(length-3, 1, "A");
-				s[i+9].replace(length-3, 1, "G");
-				s[i+18].replace(length-3, 1, "T");
-			}else if(in[length-3]=='G'){
-				s[i].replace(length-3, 1, "A");
-				s[i+9].replace(length-3, 1, "C");
-				s[i+18].replace(length-3, 1, "T");
-			}else if(in[length-3]=='T'){
-				s[i].replace(length-3, 1, "A");
-				s[i+9].replace(length-3, 1, "C");
-				s[i+18].replace(length-3, 1, "G");
+	    		if (in[b]=='A'){
+				s[i].replace(b, 1, "C");
+				s[i+9].replace(b, 1, "G");
+				s[i+18].replace(b, 1, "T");
+			}else if(in[b]=='C'){
+				s[i].replace(b, 1, "A");
+				s[i+9].replace(b, 1, "G");
+				s[i+18].replace(b, 1, "T");
+			}else if(in[b]=='G'){
+				s[i].replace(b, 1, "A");
+				s[i+9].replace(b, 1, "C");
+				s[i+18].replace(b, 1, "T");
+			}else if(in[b]=='T'){
+				s[i].replace(b, 1, "A");
+				s[i+9].replace(b, 1, "C");
+				s[i+18].replace(b, 1, "G");
 			}		
-    		}
-    }
-    if(k>3){
-
-
-    }
-    if(k>4){
-
-
+    	}
     }
 }
 
