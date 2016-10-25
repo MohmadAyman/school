@@ -1,0 +1,52 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+    int n;
+  	vector<int> l;
+   	vector<int> r;
+   	vector<int> num;
+    while(cin >> n )
+    {
+    	if(n==0)break;
+    	//cout<<"I am in"<<endl;
+    	num.resize(n);
+    	l.resize(n);
+    	r.resize(n);
+        for (int i = 1; i <= n; i++)
+        {
+        	//cout<<"Loop1"<<endl;
+            cin >> num[i];
+            l[i] = i;
+            r[i] = i;
+            
+        }   
+        //num[n+1] = num[0] = -1;
+        for (int i = 1; i <= n; i++)
+        {
+        	//cout<<"Loop2"<<endl;
+            while(num[l[i] - 1] >= num[i])
+            {
+            //	cout<<"Loop3"<<endl;
+                l[i] = l[l[i] - 1]; 
+            }
+        }
+        for (int i = n; i > 0; i--)
+        {
+        //	cout<<"Loop4"<<endl;
+            while(num[r[i] + 1] >= num[i])
+            {
+            //	cout<<"Loop5"<<endl;
+                r[i] = r[r[i] + 1];  
+            }
+        }
+        int ans = 0;
+        for (int i = 1; i <= n; i++)
+        {
+        //	cout<<"Loop6"<<endl;
+            ans = max(ans,num[i] * (r[i] - l[i] + 1));  
+        }
+        cout << ans << endl;
+    }
+    return 0;
+}

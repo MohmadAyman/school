@@ -93,6 +93,7 @@ int K =2;
 string input;
 std::vector<string> s;
 static char bases[] = { 'A', 'C', 'G', 'T' };
+int b = 0;
 
 void populate(int length, string base, string& in)
 {
@@ -182,47 +183,47 @@ void populate(int length, string base, string& in)
     		{
 	    		if (in[b]=='A'){
 				s[i].replace(b, 1, "C");
-				s[i+9].replace(b, 1, "G");
-				s[i+18].replace(b, 1, "T");
+				s[i+27].replace(b, 1, "G");
+				s[i+54].replace(b, 1, "T");
 			}else if(in[b]=='C'){
 				s[i].replace(b, 1, "A");
-				s[i+9].replace(b, 1, "G");
-				s[i+18].replace(b, 1, "T");
+				s[i+27].replace(b, 1, "G");
+				s[i+52].replace(b, 1, "T");
 			}else if(in[b]=='G'){
 				s[i].replace(b, 1, "A");
-				s[i+9].replace(b, 1, "C");
-				s[i+18].replace(b, 1, "T");
+				s[i+27].replace(b, 1, "C");
+				s[i+52].replace(b, 1, "T");
 			}else if(in[b]=='T'){
 				s[i].replace(b, 1, "A");
-				s[i+9].replace(b, 1, "C");
-				s[i+18].replace(b, 1, "G");
+				s[i+27].replace(b, 1, "C");
+				s[i+52].replace(b, 1, "G");
 			}		
     	}
     }
     if(k>4){
-   	    	for (int i = 0; i < s.size()-3;++i)
+   	    	for (int i = 0; i < s.size()-81;++i)
     		{
-    			s[i+3] = s[i];
+    			s[i+81] = s[i];
     		}
     		b = length-5;
     		for (int i = 0; i < 81; ++i) // to be fixed
     		{
 	    		if (in[b]=='A'){
 				s[i].replace(b, 1, "C");
-				s[i+9].replace(b, 1, "G");
-				s[i+18].replace(b, 1, "T");
+				s[i+81].replace(b, 1, "G");
+				s[i+162].replace(b, 1, "T");
 			}else if(in[b]=='C'){
 				s[i].replace(b, 1, "A");
-				s[i+9].replace(b, 1, "G");
-				s[i+18].replace(b, 1, "T");
+				s[i+81].replace(b, 1, "G");
+				s[i+162].replace(b, 1, "T");
 			}else if(in[b]=='G'){
 				s[i].replace(b, 1, "A");
-				s[i+9].replace(b, 1, "C");
-				s[i+18].replace(b, 1, "T");
+				s[i+81].replace(b, 1, "C");
+				s[i+162].replace(b, 1, "T");
 			}else if(in[b]=='T'){
 				s[i].replace(b, 1, "A");
-				s[i+9].replace(b, 1, "C");
-				s[i+18].replace(b, 1, "G");
+				s[i+81].replace(b, 1, "C");
+				s[i+162].replace(b, 1, "G");
 			}		
     	}
     }
