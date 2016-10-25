@@ -44,3 +44,4 @@ for x in range(len(list_of_lists)):
 		ss = ' '.join(map(str ,answerClose))
 		s=sum(answerClose)
 		print(ss+" sum:%d" % s)
+	list_of_lists[x]=[]
