@@ -10,8 +10,7 @@ int main(){
 	stack <string> cur2;
 	string path;
 	string output;
-	std::string dots ("/../");
-	cur.push("/");
+	std::string dots ("../");
 	cin>>tc;
 	while(tc--){
 		cin>>n;
@@ -24,7 +23,6 @@ int main(){
 			}
 			else if(path == "cd .."){
 				if(!cur.empty())
-					cout << "top is" << cur.top();
 					cur.pop();
 			}
 			else if(path=="pwd"){
@@ -34,25 +32,27 @@ int main(){
 				}
 				while(cur2.empty()!=true){
 					output=cur2.top();
+					cur.push(output);
 					cur2.pop();
-					cout<<output<<"/";
+					cout<<output<< "/";
 				}
 			}
 			else{
 				int i =0;
 				path = path.substr(3);
-				cout << path<<endl;
-				// std::size_t found = path.find(dots);
-				// std::size_t foundslash = path.find_last_of('/',found-1);
 				std::size_t foundslash;
+				std::size_t found = path.find(dots);
+				while(found!=string::npos){
+					foundslash = path.find_last_of("/",found-2);
+					if(foundslash!=string::npos){
+						if(!cur.empty())
+							cur.pop();
+					}else{
+						path = path.substr(0,foundslash) + path.substr(found+3);
+					}
+					found = path.find(dots);
+				}
 
-				// if(foundslash==string::npos){
-				// 	if(!cur.empty())
-				// 		cur.pop();
-				// }else{
-				// 	path = path.substr(0,foundslash) + path.substr(found+3);
-				// 	cout << path<<endl;
-				// }
 				foundslash = path.find('/',1);
 				while(foundslash!=string::npos){
 					string p = path.substr(0,foundslash);
