@@ -19,7 +19,6 @@ B = np.zeros((n,m))	## Calculate M first and use it
 G = np.zeros((n,n))
 D = np.zeros((m,m))
 Z = np.zeros((n+m,1))
-Z = np.zeros((n+m,1))
 
 A = np.zeros((n+m,n+m))
 
