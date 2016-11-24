@@ -1,7 +1,7 @@
-Isrc V1 V0 1 0
-R V1 V0 1 0
-R V1 V0 1 0
-R V1 V2 0.5 0
-R V2 V0 1 0
-C V1 V2 1 0
-C V2 V0 1 0
+Isrc v1 v0 1 0
+R v1 v0 1 0
+R v1 v0 1 0
+R v1 v2 0.5 0
+R v2 v0 1 0
+C v1 v2 1 0
+C v2 v0 1 0
