@@ -1,0 +1,15 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Name=MoveIt Setup Assistant
+Icon=icon
+Exec=roslaunch moveit_setup_assistant setup_assistant.launch
+Terminal=false
+StartupNotify=false
+StartupWMClass=moveit_setup_assistant
+OnlyShowIn=Unity Gnome;
+X-UnityGenerated=true
+X-Desktop-File-Install-Version=0.22
+Categories=Utility;Application;
+
